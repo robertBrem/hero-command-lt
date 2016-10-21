@@ -14,15 +14,37 @@
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
                 <version>2.0.3</version>
+                <configuration>
+                    <propertiesUser>
+                        <host>${performancetest.webservice.host}</host>
+                        <port>${performancetest.webservice.port}</port>
+                    </propertiesUser>
+                </configuration>
                 <executions>
                     <execution>
                         <id>jmeter-tests</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>jmeter</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-analysis-maven-plugin</artifactId>
+                <version>1.0.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>analyze</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>${project.build.directory}/jmeter/results/*</source>
+                    <targetDirectory>${project.build.directory}/reports</targetDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -30,5 +52,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <performancetest.webservice.host>localhost</performancetest.webservice.host>
+        <performancetest.webservice.port>8282</performancetest.webservice.port>
     </properties>
 </project>
